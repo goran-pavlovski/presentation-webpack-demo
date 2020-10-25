@@ -1,3 +1,5 @@
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path');
@@ -5,7 +7,7 @@ const { WebpackPluginServe } = require('webpack-plugin-serve');
 const { mode } = require('webpack-nano/argv');
 
 module.exports = {
-  entry: ["./src/index.js", "webpack-plugin-serve/client"],
+  entry: ['./src/index.js', 'webpack-plugin-serve/client'],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
@@ -27,7 +29,8 @@ module.exports = {
       static: './dist',
       liveReload: true,
       waitForBuild: true,
-      open: true
+      open: true,
     }),
+    new CleanWebpackPlugin(),
   ],
 };
