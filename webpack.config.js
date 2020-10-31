@@ -18,7 +18,14 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'dist'),
     index: 'index.html',
     port: 9000,
-    open: true,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -27,10 +34,11 @@ module.exports = {
     new WebpackPluginServe({
       port: process.env.PORT || 8080,
       static: './dist',
-      liveReload: true,
+      hmr: true,
       waitForBuild: true,
-      open: true,
     }),
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      cleanStaleWebpackAssets: false
+    }),
   ],
 };
