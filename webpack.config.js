@@ -8,22 +8,31 @@ const { mode } = require('webpack-nano/argv');
 
 module.exports = {
   entry: ['./src/index.js', 'webpack-plugin-serve/client'],
+  // entry: ['./src/index.js'],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   mode,
   watch: mode === 'development',
-  devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    index: 'index.html',
-    port: 9000,
-  },
+  // devServer: {
+  //   contentBase: path.resolve(__dirname, 'dist'),
+  //   index: 'index.html',
+  //   port: 9000,
+  //   hot: true,
+  //   hotOnly: true
+  // },
+  devtool: false,
   module: {
     rules: [
+      // {
+      //   test: /\.css$/,
+      //   exclude: /node_modules/,
+      //   use: ['style-loader', 'css-loader']
+      // },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   },
@@ -34,8 +43,9 @@ module.exports = {
     new WebpackPluginServe({
       port: process.env.PORT || 8080,
       static: './dist',
-      hmr: true,
+      liveReload: true,
       waitForBuild: true,
+      open: true
     }),
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false

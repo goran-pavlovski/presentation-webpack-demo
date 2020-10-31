@@ -1,0 +1,17 @@
+// bootstrap overrides variables
+$primary: red;
+// import bootstrap
+@import "~bootstrap/scss/bootstrap";
+// custom variables
+$text-color: #2a2a2a;
+$body-background: green;
+body {
+  background: $body-background;
+  color: $text-color;
+  .card-body {
+    background: darken(aqua, 20%);
+    color: lighten($text-color, 70%);
+  }
+}
+
+
