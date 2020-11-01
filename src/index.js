@@ -11,3 +11,11 @@ AddImage();
 const alertService = new AlertService();
 const componentService = new ComponentService();
 run(alertService, componentService);
+
+const fancyFunc = () => {
+  return [1, 2];
+}
+const [a, b] = fancyFunc();
+
+console.log(a);
+console.log(b);
