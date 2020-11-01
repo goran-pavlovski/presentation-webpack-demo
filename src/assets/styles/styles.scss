@@ -19,6 +19,9 @@ body {
   color: $text-color;
   font-family: 'Open Sans', Arial, sans-serif;
   font-weight: 300;
+  h1 {
+    background: rgba(255,255,255, .5);
+  }
   .card-body {
     background: darken(aqua, 20%);
     color: lighten($text-color, 70%);

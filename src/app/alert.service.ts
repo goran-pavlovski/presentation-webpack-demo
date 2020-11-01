@@ -1,11 +1,12 @@
 import { inputsAreValid } from "./utils/inputs-are-valid";
 
 export class AlertService {
+  private errorBox: HTMLElement;
   constructor() {
     this.errorBox = document.getElementById("error");
   }
 
-  handleAdditionError(inputs, numbers) {
+  handleAdditionError(inputs: string[], numbers: number[]) {
     const fullMessage = inputs.reduce((message, str, index) => {
       if (inputsAreValid(numbers[index])) {
         return message + "";

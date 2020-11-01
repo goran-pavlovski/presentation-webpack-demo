@@ -1,4 +1,4 @@
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -7,32 +7,35 @@ const { WebpackPluginServe } = require('webpack-plugin-serve');
 const { mode } = require('webpack-nano/argv');
 
 module.exports = {
-  entry: ['./src/index.js', 'webpack-plugin-serve/client'],
-  // entry: ['./src/index.js'],
+  entry: ['./src/index.ts', 'webpack-plugin-serve/client'],
+  // entry: ['./src/index.ts'],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: ""
+    publicPath: '',
   },
   mode,
   watch: mode === 'development',
-  devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    index: 'index.html',
-    port: 9000,
-    hot: true,
-    hotOnly: true
+  // devServer: {
+  //   contentBase: path.resolve(__dirname, 'dist'),
+  //   index: 'index.html',
+  //   port: 9000,
+  //   hot: true,
+  //   hotOnly: true,
+  // },
+  devtool: mode === 'development' ? 'inline-source-map' : false,
+  resolve: {
+    extensions: ['.ts', '.js'],
   },
-  devtool: false,
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       // {
       //   test: /\.(png|jpg|jpeg|gif)$/,
@@ -49,7 +52,7 @@ module.exports = {
       // },
       {
         test: /\.html$/,
-        use: 'html-loader'
+        use: 'html-loader',
       },
       // {
       //   test: /\.(jpg|jpeg|png|gif)$/,
@@ -62,16 +65,16 @@ module.exports = {
       // },
       {
         test: /\.(jpg|jpeg|png|gif)$/,
-        use: 'file-loader'
+        use: 'file-loader',
       },
       {
         test: /.svg$/,
-        use: 'file-loader'
+        use: 'file-loader',
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: ['babel-loader'],
       },
       // {
       //   test: /\.js$/,
@@ -87,13 +90,18 @@ module.exports = {
       {
         test: /\.(woff2|woff|ttf|eot)$/,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            outputPath: 'fonts'
+            outputPath: 'fonts',
           },
-        }
+        },
+      },
+      {
+        test: /\.ts?/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       }
-    ]
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -104,10 +112,10 @@ module.exports = {
       static: './dist',
       liveReload: true,
       waitForBuild: true,
-      open: true
+      open: true,
     }),
     new CleanWebpackPlugin({
-      cleanStaleWebpackAssets: false
+      cleanStaleWebpackAssets: false,
     }),
   ],
 };
