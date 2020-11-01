@@ -12,27 +12,61 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: ""
   },
   mode,
   watch: mode === 'development',
-  // devServer: {
-  //   contentBase: path.resolve(__dirname, 'dist'),
-  //   index: 'index.html',
-  //   port: 9000,
-  //   hot: true,
-  //   hotOnly: true
-  // },
+  devServer: {
+    contentBase: path.resolve(__dirname, 'dist'),
+    index: 'index.html',
+    port: 9000,
+    hot: true,
+    hotOnly: true
+  },
   devtool: false,
   module: {
     rules: [
-      // {
-      //   test: /\.css$/,
-      //   exclude: /node_modules/,
-      //   use: ['style-loader', 'css-loader']
-      // },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
       {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader']
+      },
+      // {
+      //   test: /\.(png|jpg|jpeg|gif)$/,
+      //   type: "asset",
+      //   parser: {
+      //     dataUrlCondition: {
+      //       maxSize: 25000,
+      //     },
+      //   }
+      // },
+      // {
+      //   test: /\.(jpg|png|gif)$/,
+      //   loader: 'file-loader',
+      // },
+      {
+        test: /\.html$/,
+        use: 'html-loader'
+      },
+      // {
+      //   test: /\.(jpg|jpeg|png|gif)$/,
+      //   use: {
+      //     loader: "url-loader",
+      //     options: {
+      //       limit: 25000,
+      //     }
+      //   }
+      // },
+      {
+        test: /\.(jpg|jpeg|png|gif)$/,
+        use: 'file-loader'
+      },
+      {
+        test: /.svg$/,
+        use: 'file-loader'
       }
     ]
   },
