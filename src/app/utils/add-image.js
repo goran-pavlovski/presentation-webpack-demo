@@ -1,4 +1,4 @@
-import Dog from "../../assets/dog.gif";
+import Dog from "../../assets/images/dog.gif";
 
 export function AddImage() {
   const img = document.createElement('img');

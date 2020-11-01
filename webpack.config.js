@@ -83,7 +83,16 @@ module.exports = {
       //       // plugins: []
       //     }
       //   }
-      // }
+      // },
+      {
+        test: /\.(woff2|woff|ttf)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            outputPath: 'fonts'
+          },
+        }
+      }
     ]
   },
   plugins: [

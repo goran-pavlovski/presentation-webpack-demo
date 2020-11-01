@@ -4,7 +4,7 @@ import { ComponentService } from './app/component.service';
 
 // import './main.css';
 
-import './styles.scss';
+import './assets/styles/styles.scss';
 import { AddImage } from './app/utils/add-image';
 
 AddImage();
@@ -16,6 +16,3 @@ const fancyFunc = () => {
   return [1, 2];
 }
 const [a, b] = fancyFunc();
-
-console.log(a);
-console.log(b);
