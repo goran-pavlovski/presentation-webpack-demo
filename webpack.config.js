@@ -11,7 +11,7 @@ module.exports = {
   entry: ['./src/index.ts', 'webpack-plugin-serve/client'],
   // entry: ['./src/index.ts'],
   output: {
-    filename: 'bundle.js',
+    filename: 'bundle.[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '',
   },
@@ -107,10 +107,13 @@ module.exports = {
   plugins: [
     new TerserPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'styles.css',
+      filename: 'styles.[contenthash].css',
     }),
     new HtmlWebpackPlugin({
       template: './index.html',
+      meta: {
+        description: 'Some description'
+      }
     }),
     new WebpackPluginServe({
       port: process.env.PORT || 8080,
@@ -119,8 +122,6 @@ module.exports = {
       waitForBuild: true,
       open: true,
     }),
-    new CleanWebpackPlugin({
-      cleanStaleWebpackAssets: false,
-    }),
+    new CleanWebpackPlugin(),
   ],
 };
