@@ -1,10 +1,11 @@
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const path = require('path');
-const { WebpackPluginServe } = require('webpack-plugin-serve');
 const { mode } = require('webpack-nano/argv');
+
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { WebpackPluginServe } = require('webpack-plugin-serve');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: ['./src/index.ts', 'webpack-plugin-serve/client'],
@@ -31,11 +32,11 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       // {
       //   test: /\.(png|jpg|jpeg|gif)$/,
@@ -100,10 +101,14 @@ module.exports = {
         test: /\.ts?/,
         use: 'ts-loader',
         exclude: /node_modules/,
-      }
+      },
     ],
   },
   plugins: [
+    new TerserPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
+    }),
     new HtmlWebpackPlugin({
       template: './index.html',
     }),
