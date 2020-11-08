@@ -43,3 +43,16 @@ const person: Person = {
 };
 
 console.log('person: ', person);
+
+// enum EnvironmentsEnum {
+//   production = 'production',
+//   development = 'development'
+// }
+//
+// if (process.env.NODE_ENV === EnvironmentsEnum.production) {
+//   console.log('Production mode');
+// } else if (process.env.NODE_ENV === EnvironmentsEnum.development) {
+//   console.log('Development mode')
+// }
+//
+// alertService.run();
