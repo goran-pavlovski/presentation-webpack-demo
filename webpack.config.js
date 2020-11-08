@@ -1,127 +1,56 @@
 const path = require('path');
 const { mode } = require('webpack-nano/argv');
+const { merge } = require('webpack-merge');
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { WebpackPluginServe } = require('webpack-plugin-serve');
-const TerserPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const parts = require('./webpack.parts');
 
-module.exports = {
-  entry: ['./src/index.ts', 'webpack-plugin-serve/client'],
-  // entry: ['./src/index.ts'],
-  output: {
-    filename: 'bundle.[contenthash].js',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '',
+const commonConfig = merge([
+  {
+    entry: ['./src/index.ts'],
+    output: {
+      filename: 'bundle.[contenthash].js',
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: '',
+    },
+    resolve: {
+      extensions: ['.ts', '.js'],
+    },
   },
-  mode,
-  watch: mode === 'development',
-  // devServer: {
-  //   contentBase: path.resolve(__dirname, 'dist'),
-  //   index: 'index.html',
-  //   port: 9000,
-  //   hot: true,
-  //   hotOnly: true,
-  // },
-  devtool: mode === 'development' ? 'inline-source-map' : false,
-  resolve: {
-    extensions: ['.ts', '.js'],
+  parts.page({ title: 'Webpack Demo' }),
+  // parts.loadCSS(),
+  parts.extractCSS(),
+  parts.loadImages({
+    options: { limit: 15000, name: '[name].[ext]' },
+  }),
+  parts.loadHTML(),
+  parts.loadFonts({
+    options: {
+      outputPath: 'fonts',
+    },
+  }),
+  // parts.loadJavascript(),
+  parts.loadTypescript(),
+  parts.clean(),
+]);
+
+const productionConfig = merge([parts.generateSourceMaps({ type: 'source-map' })]);
+const developmentConfig = merge([
+  {
+    entry: ['webpack-plugin-serve/client'],
   },
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
-      },
-      {
-        test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-      },
-      // {
-      //   test: /\.(png|jpg|jpeg|gif)$/,
-      //   type: "asset",
-      //   parser: {
-      //     dataUrlCondition: {
-      //       maxSize: 25000,
-      //     },
-      //   }
-      // },
-      // {
-      //   test: /\.(jpg|png|gif)$/,
-      //   loader: 'file-loader',
-      // },
-      {
-        test: /\.html$/,
-        use: 'html-loader',
-      },
-      // {
-      //   test: /\.(jpg|jpeg|png|gif)$/,
-      //   use: {
-      //     loader: "url-loader",
-      //     options: {
-      //       limit: 25000,
-      //     }
-      //   }
-      // },
-      {
-        test: /\.(jpg|jpeg|png|gif)$/,
-        use: 'file-loader',
-      },
-      {
-        test: /.svg$/,
-        use: 'file-loader',
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['babel-loader'],
-      },
-      // {
-      //   test: /\.js$/,
-      //   exclude: /node_modules/,
-      //   use: {
-      //     loader: "babel-loader",
-      //     options: {
-      //       presets: ["@babel/preset-env"],
-      //       // plugins: []
-      //     }
-      //   }
-      // },
-      {
-        test: /\.(woff2|woff|ttf|eot)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            outputPath: 'fonts',
-          },
-        },
-      },
-      {
-        test: /\.ts?/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-    ],
-  },
-  plugins: [
-    new TerserPlugin(),
-    new MiniCssExtractPlugin({
-      filename: 'styles.[contenthash].css',
-    }),
-    new HtmlWebpackPlugin({
-      template: './index.html',
-      meta: {
-        description: 'Some description'
-      }
-    }),
-    new WebpackPluginServe({
-      port: process.env.PORT || 8080,
-      static: './dist',
-      liveReload: true,
-      waitForBuild: true,
-      open: true,
-    }),
-    new CleanWebpackPlugin(),
-  ],
+  parts.devServer(),
+  parts.generateSourceMaps({ type: 'inline-source-map' }),
+]);
+
+const getConfig = mode => {
+  switch (mode) {
+    case 'production':
+      return merge(commonConfig, productionConfig, { mode });
+    case 'development':
+      return merge(commonConfig, developmentConfig, { mode });
+    default:
+      throw new Error(`Trying to use an unknown mode,  ${mode}`);
+  }
 };
+
+module.exports = getConfig(mode);
