@@ -7,16 +7,20 @@ const parts = require('./webpack.parts');
 const commonConfig = merge([
   {
     entry: {
-      main: './src/index.ts',
+      app: {
+        import: path.join(__dirname, 'src', 'index.ts'),
+        dependOn: 'vendor'
+      },
+      vendor: ['react', 'react-dom', 'bootstrap', 'moment']
     },
     output: {
       filename: '[name].[contenthash].js',
       path: path.resolve(__dirname, 'dist'),
       publicPath: '',
     },
-    optimization: {
-      splitChunks: { chunks: "all" }
-    },
+    // optimization: {
+    //   splitChunks: { chunks: "all" }
+    // },
     resolve: {
       extensions: ['.ts', '.js'],
     },
