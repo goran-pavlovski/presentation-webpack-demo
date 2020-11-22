@@ -39,7 +39,7 @@ const developmentConfig = merge([
     entry: ['webpack-plugin-serve/client'],
   },
   parts.devServer(),
-  parts.generateSourceMaps({ type: 'inline-source-map' }),
+  parts.generateSourceMaps({ type: 'eval-source-map' }),
 ]);
 
 const getConfig = mode => {
