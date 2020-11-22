@@ -6,11 +6,16 @@ const parts = require('./webpack.parts');
 
 const commonConfig = merge([
   {
-    entry: ['./src/index.ts'],
+    entry: {
+      main: './src/index.ts',
+    },
     output: {
-      filename: 'bundle.[contenthash].js',
+      filename: '[name].[contenthash].js',
       path: path.resolve(__dirname, 'dist'),
       publicPath: '',
+    },
+    optimization: {
+      splitChunks: { chunks: "all" }
     },
     resolve: {
       extensions: ['.ts', '.js'],
@@ -20,7 +25,7 @@ const commonConfig = merge([
   // parts.loadCSS(),
   parts.extractCSS(),
   parts.loadImages({
-    options: { limit: 15000, name: '[name].[ext]' },
+    options: { name: '[name].[ext]',  outputPath: 'images', },
   }),
   parts.loadHTML(),
   parts.loadFonts({

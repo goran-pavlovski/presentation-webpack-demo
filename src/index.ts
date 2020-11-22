@@ -16,6 +16,10 @@ import { AddImage } from './app/utils/add-image';
 import { AlertService } from './app/alert.service';
 import { ComponentService } from './app/component.service';
 import { run } from './app/app';
+import 'bootstrap';
+import 'react';
+import 'react-dom';
+import * as moment from 'moment';
 
 library.add(faSpinner, faBeer, faPlusCircle, faMinusCircle);
 dom.watch();
@@ -43,7 +47,8 @@ const person: Person = {
   sex: 'Male'
 };
 
-console.log('person: ', person);
+console.log('Person: ', person);
+console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
 
 // enum EnvironmentsEnum {
 //   production = 'production',
