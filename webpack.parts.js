@@ -19,11 +19,21 @@ exports.devServer = () => ({
 exports.page = ({ title }) => ({
   plugins: [
     new HtmlWebpackPlugin({
+      hash: true,
+      title: 'My Awesome application',
+      myPageHeader: 'Hello World',
       template: './index.html',
-      context: {
-        title,
-      },
+      chunks: ['app', 'vendor'],
+      filename: 'index.html' //relative to root of the application
     }),
+    new HtmlWebpackPlugin({
+      hash: true,
+      title: 'My Awesome Login',
+      myPageHeader: 'Login',
+      template: './src/app/login/login.html',
+      chunks: ['login', 'vendor'],
+      filename: 'login.html'
+    })
   ],
 });
 
@@ -71,7 +81,7 @@ exports.extractCSS = ({ options = {}, loaders = [] } = {}) => {
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: 'styles.[contenthash].css',
+        filename: '[name].[contenthash].css',
       }),
     ],
   };

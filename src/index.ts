@@ -16,7 +16,6 @@ import { run } from './app/app';
 import 'bootstrap';
 import 'react';
 import 'react-dom';
-import * as moment from 'moment';
 
 library.add(faSpinner, faBeer, faPlusCircle, faMinusCircle);
 dom.watch();
@@ -45,7 +44,6 @@ const person: Person = {
 };
 
 console.log('Person: ', person);
-console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
 
 const btn = document.getElementById('btn');
 
