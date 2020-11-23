@@ -1,12 +1,9 @@
-import { library, dom } from '@fortawesome/fontawesome-svg-core';
+import { dom, library } from '@fortawesome/fontawesome-svg-core';
 // import '@fortawesome/fontawesome-free/js/fontawesome';
 // import '@fortawesome/fontawesome-free/js/solid';
 // import '@fortawesome/fontawesome-free/js/regular';
 // import '@fortawesome/fontawesome-free/js/brands';
-
-
 // import './main.css';
-
 import './assets/styles/styles.scss';
 import { faBeer } from '@fortawesome/free-solid-svg-icons/faBeer';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
@@ -44,11 +41,20 @@ export interface Person {
 const person: Person = {
   name: 'John',
   age: 26,
-  sex: 'Male'
+  sex: 'Male',
 };
 
 console.log('Person: ', person);
 console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
+
+const btn = document.getElementById('btn');
+
+btn.onclick = e =>
+  import(/* webpackChunkName: "usersAPI" */ './common/users-api')
+    .then(({ getUsers }) => getUsers())
+    .then(users => {
+      console.log(users);
+    });
 
 // enum EnvironmentsEnum {
 //   production = 'production',
