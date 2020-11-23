@@ -2,6 +2,8 @@ const { WebpackPluginServe } = require('webpack-plugin-serve');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionPlugin = require("compression-webpack-plugin");
 
 exports.devServer = () => ({
   watch: true,
@@ -192,3 +194,9 @@ exports.loadHTML = () => ({
     ],
   },
 });
+
+exports.bundleAnalyzer = () => ({
+  plugins: [
+    new BundleAnalyzerPlugin()
+  ]
+})

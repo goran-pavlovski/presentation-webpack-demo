@@ -55,7 +55,8 @@ const productionConfig = merge([
       maxEntrypointSize: 50000, // in bytes, default 250k
       maxAssetSize: 100000, // in bytes
     },
-  }
+  },
+  parts.bundleAnalyzer()
 ]);
 const developmentConfig = merge([
   {
