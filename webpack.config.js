@@ -16,9 +16,6 @@ const commonConfig = merge([
       publicPath: '',
     },
     optimization: {
-      // splitChunks: {
-      //   chunks: "all"
-      // }
       splitChunks: {
         cacheGroups: {
           commons: {
@@ -50,7 +47,16 @@ const commonConfig = merge([
   parts.clean(),
 ]);
 
-const productionConfig = merge([parts.generateSourceMaps({ type: 'source-map' })]);
+const productionConfig = merge([
+  parts.generateSourceMaps({ type: 'source-map' }),
+  {
+    performance: {
+      hints: "warning", // "error" or false are valid too
+      maxEntrypointSize: 50000, // in bytes, default 250k
+      maxAssetSize: 100000, // in bytes
+    },
+  }
+]);
 const developmentConfig = merge([
   {
     entry: ['webpack-plugin-serve/client'],
