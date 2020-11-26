@@ -16,15 +16,22 @@ const commonConfig = merge([
       publicPath: '',
     },
     optimization: {
-      // splitChunks: {
-      //   chunks: "all"
-      // }
+      runtimeChunk: 'single',
       splitChunks: {
+        chunks: 'all',
+        maxInitialRequests: Infinity,
+        minSize: 0,
         cacheGroups: {
-          commons: {
+          vendor: {
             test: /[\\/]node_modules[\\/]/,
-            name: "vendor",
-            chunks: "initial",
+            name(module) {
+              // get the name. E.g. node_modules/packageName/not/this/part.js
+              // or node_modules/packageName
+              const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+              // npm package names are URL-safe, but some servers don't like @ symbols
+              return `npm.${packageName.replace('@', '')}`;
+            },
           },
         },
       },
@@ -50,7 +57,10 @@ const commonConfig = merge([
   parts.clean(),
 ]);
 
-const productionConfig = merge([parts.generateSourceMaps({ type: 'source-map' })]);
+const productionConfig = merge([
+  parts.generateSourceMaps({ type: 'source-map' }),
+  // parts.devServer(),
+]);
 const developmentConfig = merge([
   {
     entry: ['webpack-plugin-serve/client'],
