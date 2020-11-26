@@ -66,14 +66,14 @@ const productionConfig = merge([
       maxAssetSize: 100000, // in bytes
     },
   },
-  parts.devServer(),
+  // parts.devServer(),
   parts.bundleAnalyzer()
 ]);
 const developmentConfig = merge([
   {
     entry: ['webpack-plugin-serve/client'],
   },
-  // parts.devServer(),
+  parts.devServer(),
   parts.generateSourceMaps({ type: 'eval-source-map' }),
 ]);
 
