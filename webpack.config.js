@@ -19,35 +19,27 @@ const commonConfig = merge([
       path: path.resolve(__dirname, 'dist'),
       publicPath: '',
     },
-    /* 1. Separate vendor files */
+    optimization: {
+      runtimeChunk: 'single',
+      splitChunks: {
+        chunks: 'all',
+        maxInitialRequests: Infinity,
+        minSize: 0,
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name(module) {
+              // get the name. E.g. node_modules/packageName/not/this/part.js
+              // or node_modules/packageName
+              const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
 
-    // optimization: {
-    //   splitChunks: { chunks: "all" }
-    // },
-
-    /*2. Split each npm package*/
-
-    // optimization: {
-    //   runtimeChunk: 'single',
-    //   splitChunks: {
-    //     chunks: 'all',
-    //     maxInitialRequests: Infinity,
-    //     minSize: 0,
-    //     cacheGroups: {
-    //       vendor: {
-    //         test: /[\\/]node_modules[\\/]/,
-    //         name(module) {
-    //           // get the name. E.g. node_modules/packageName/not/this/part.js
-    //           // or node_modules/packageName
-    //           const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-    //
-    //           // npm package names are URL-safe, but some servers don't like @ symbols
-    //           return `npm.${packageName.replace('@', '')}`;
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
+              // npm package names are URL-safe, but some servers don't like @ symbols
+              return `npm.${packageName.replace('@', '')}`;
+            },
+          },
+        },
+      },
+    },
     resolve: {
       extensions: ['.ts', '.js'],
     },
@@ -71,7 +63,7 @@ const commonConfig = merge([
 
 const productionConfig = merge([
   parts.generateSourceMaps({ type: 'source-map' }),
-  parts.devServer(),
+  // parts.devServer(),
 ]);
 const developmentConfig = merge([
   {
