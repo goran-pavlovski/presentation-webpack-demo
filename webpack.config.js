@@ -7,8 +7,8 @@ const parts = require('./webpack.parts');
 const commonConfig = merge([
   {
     entry: {
-      app: './src/index.ts',
-      login: './src/app/login/login.ts'
+      app: ['./src/index.ts', 'webpack-plugin-serve/client'],
+      login: ['./src/app/login/login.ts', 'webpack-plugin-serve/client']
     },
     output: {
       filename: '[name].[contenthash].js',
@@ -62,9 +62,9 @@ const productionConfig = merge([
   // parts.devServer(),
 ]);
 const developmentConfig = merge([
-  {
-    entry: ['webpack-plugin-serve/client'],
-  },
+  // {
+  //   entry: ['webpack-plugin-serve/client'],
+  // },
   parts.devServer(),
   parts.generateSourceMaps({ type: 'eval-source-map' }),
 ]);
