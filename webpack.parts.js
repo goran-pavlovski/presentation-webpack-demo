@@ -21,7 +21,6 @@ exports.devServer = () => ({
 exports.page = ({ title }) => ({
   plugins: [
     new HtmlWebpackPlugin({
-      hash: true,
       title: 'My Awesome application',
       myPageHeader: 'Hello World',
       template: './index.html',
@@ -29,7 +28,6 @@ exports.page = ({ title }) => ({
       filename: 'index.html' //relative to root of the application
     }),
     new HtmlWebpackPlugin({
-      hash: true,
       title: 'My Awesome Login',
       myPageHeader: 'Login',
       template: './src/app/login/login.html',
